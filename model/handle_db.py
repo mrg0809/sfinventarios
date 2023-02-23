@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
+import pandas as pd
 
 class HandleDB():
     def __init__(self):
@@ -26,7 +27,7 @@ class HandleDB():
         return data
     
     def get_existencias(self, model):
-        self._cur.execute("SELECT Tienda, Existencia, Talla FROM existencias WHERE Modelo = '{}' ORDER BY Talla".format(model))
+        self._cur.execute("SELECT Tienda, Talla, Existencia FROM existencias WHERE Modelo = '{}'".format(model))
         data = self._cur.fetchall()
         return data
 
@@ -35,4 +36,14 @@ class HandleDB():
 
 
 db = HandleDB()
-print(db.get_existencias('TPCN3428'))
+
+
+df = pd.DataFrame(db.get_existencias('TPGW9250'))
+df.columns=["TIENDA", "TALLA", "EXISTENCIA"]
+df["EXISTENCIA"] = df["EXISTENCIA"].astype(float)
+
+df2 = df.pivot(index="TIENDA", columns="TALLA", values="EXISTENCIA").fillna(0)
+df2.loc['TOTAL',:] = df2.sum(axis=0)
+df2.loc[:,'TOTAL'] = df2.sum(axis=1)
+
+print(df2)
