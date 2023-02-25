@@ -22,9 +22,14 @@ class HandleDB():
         return data
 
     def get_ean_model(self, ean):
-        self._cur.execute("SELECT Modelo FROM existencias WHERE EAN = '{}'".format(ean))
-        data = self._cur.fetchone()
-        return data
+        try:
+            self._cur.execute("SELECT Modelo FROM existencias WHERE EAN = '{}'".format(ean))
+            data = self._cur.fetchone()
+            trash = self._cur.fetchall()
+            return data
+        except Exception as e:
+            return 'NOT FOUND'
+    
     
     def get_existencias(self, model):
         self._cur.execute("SELECT Tienda, Talla, Existencia FROM existencias WHERE Modelo = '{}'".format(model))
@@ -38,12 +43,23 @@ class HandleDB():
 db = HandleDB()
 
 
-df = pd.DataFrame(db.get_existencias('TPGW9250'))
-df.columns=["TIENDA", "TALLA", "EXISTENCIA"]
-df["EXISTENCIA"] = df["EXISTENCIA"].astype(float)
+def tabla_existencias(modelo):
+    if db.get_existencias(modelo) == []:
+        modelo = db.get_ean_model(modelo)[0]
+        print(modelo)
 
-df2 = df.pivot(index="TIENDA", columns="TALLA", values="EXISTENCIA").fillna(0)
-df2.loc['TOTAL',:] = df2.sum(axis=0)
-df2.loc[:,'TOTAL'] = df2.sum(axis=1)
+    try:
+        df = pd.DataFrame(db.get_existencias(modelo))
+        df.columns=["TIENDA", "TALLA", "EXISTENCIA"]
+        df["EXISTENCIA"] = df["EXISTENCIA"].astype(float)
+        df = df.pivot(index="TIENDA", columns="TALLA", values="EXISTENCIA").fillna(0)
+        df.loc['TOTAL',:] = df.sum(axis=0)
+        df.loc[:,'TOTAL'] = df.sum(axis=1)
+        print(df)
+        return df
+    except Exception as e:
+        return 'NOT FOUND'
+    
+tabla_existencias('TPGW9250')
 
-print(df2)
+

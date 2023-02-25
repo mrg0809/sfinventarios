@@ -1,0 +1,24 @@
+{% extends "components/layout.html" %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div>
+        <article class="message is-dark is-large">
+            <div class="message-header">
+                <strong>MODELO</strong>
+            </div>
+        </article>
+    
+        <div class="columns is-multiline">
+            <div class="column">
+                    {{data.to_html(classes='table is-bordered is-striped is-hoverable is-fullwidth') | safe}}
+            </div>
+
+            <div class="column">
+                IMAGEN
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
