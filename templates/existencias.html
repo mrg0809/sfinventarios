@@ -5,17 +5,29 @@
     <div>
         <article class="message is-dark is-large">
             <div class="message-header">
-                <strong>MODELO</strong>
+                <strong>{{modelo}}</strong>
             </div>
         </article>
     
         <div class="columns is-multiline">
-            <div class="column">
-                    {{data.to_html(classes='table is-bordered is-striped is-hoverable is-fullwidth') | safe}}
+            <div class="column is-two-thirds">
+                    {{data.to_html(classes='table is-bordered is-striped is-hoverable') | safe}}
             </div>
-
+        
             <div class="column">
-                IMAGEN
+                <strong>Precio Publico:</strong> $1599<br>
+                <strong>Descuento:</strong> $1599<br>
+                <strong>Precio Tienda:</strong> $1599<br>
+                <strong>Descripción:</strong> $1599<br>
+                <strong>Linea:</strong> $1599<br>
+                <strong>Marca:</strong> $1599<br>
+                <strong>Subcategoria:</strong> $1599<br>
+            </div>
+            <div class="column">
+                <figure class="image is-128x128">
+                    <img src = http://sfan.ddns.net:2090/SF/{{modelo}}.jpg alt='imagen articulo'/>
+                </figure>
+
             </div>
         </div>
     </div>

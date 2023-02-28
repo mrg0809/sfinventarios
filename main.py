@@ -15,4 +15,4 @@ def index(request: Request):
 @app.get('/existencias/{modelo}', response_class=HTMLResponse)
 def existencias(request: Request, modelo):
     data = tabla_existencias(modelo)
-    return templates.TemplateResponse("existencias.html", {"request":request, "data":data})
+    return templates.TemplateResponse("existencias.html", {"request":request, "data":data, "modelo":modelo})

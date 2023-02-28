@@ -55,11 +55,9 @@ def tabla_existencias(modelo):
         df = df.pivot(index="TIENDA", columns="TALLA", values="EXISTENCIA").fillna(0)
         df.loc['TOTAL',:] = df.sum(axis=0)
         df.loc[:,'TOTAL'] = df.sum(axis=1)
-        print(df)
         return df
     except Exception as e:
         return 'NOT FOUND'
     
-tabla_existencias('TPGW9250')
 
 
