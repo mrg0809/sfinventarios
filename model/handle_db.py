@@ -28,11 +28,15 @@ class HandleDB():
             trash = self._cur.fetchall()
             return data
         except Exception as e:
-            return 'NOT FOUND'
-    
+            return 'NOT FOUND'   
     
     def get_existencias(self, model):
         self._cur.execute("SELECT Tienda, Talla, Existencia FROM existencias WHERE Modelo = '{}'".format(model))
+        data = self._cur.fetchall()
+        return data
+    
+    def get_model_data(self, model):
+        self._cur.execute("SELECT Descripcion, Precio, Descuento, Linea, Marca, Subcategoria FROM existencias WHERE Modelo = '{}' LIMIT 1".format(model))
         data = self._cur.fetchall()
         return data
 
@@ -60,4 +64,13 @@ def tabla_existencias(modelo):
         return 'NOT FOUND'
     
 
+def get_model_data(modelo):
+    query = db.get_model_data(modelo)
+    precio = round(float(query[0][1])*1.16)
+    descuento = float(query[0][2])
+    precio_tienda = precio
+    if descuento > 0:
+        precio_tienda = precio*(100-descuento)/100
+    data = {'descripcion': query[0][0], 'precio': precio, 'descuento': round(descuento, 2), 'precio_tienda': round(precio_tienda), 'linea': query[0][3], 'marca': query[0][4], 'subcategoria' :query[0][5]}
+    return data
 

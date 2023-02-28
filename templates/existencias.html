@@ -5,28 +5,27 @@
     <div>
         <article class="message is-dark is-large">
             <div class="message-header">
-                <strong>{{modelo}}</strong>
+                <h1 class="title has-text-white"><strong>{{modelo}}</strong></h1>
             </div>
         </article>
     
         <div class="columns is-multiline">
-            <div class="column is-two-thirds">
-                    {{data.to_html(classes='table is-bordered is-striped is-hoverable') | safe}}
+            <div class="column is-half">
+                    {{existencias.to_html(classes='table is-bordered is-striped is-hoverable is-fullwidth') | safe}}
             </div>
         
             <div class="column">
-                <strong>Precio Publico:</strong> $1599<br>
-                <strong>Descuento:</strong> $1599<br>
-                <strong>Precio Tienda:</strong> $1599<br>
-                <strong>Descripción:</strong> $1599<br>
-                <strong>Linea:</strong> $1599<br>
-                <strong>Marca:</strong> $1599<br>
-                <strong>Subcategoria:</strong> $1599<br>
-            </div>
-            <div class="column">
-                <figure class="image is-128x128">
-                    <img src = http://sfan.ddns.net:2090/SF/{{modelo}}.jpg alt='imagen articulo'/>
-                </figure>
+                <div class="has-text-centered">                     
+                    <img src = http://sfan.ddns.net:2090/SF/{{modelo}}.jpg width=350 height=350 alt='imagen articulo'/>
+                </div>
+                <hr>
+                <p class="subtitle is-4 has-text-link"><strong>Precio Publico:</strong> ${{data.precio}}<br></p>
+                <p class="subtitle is-4"><strong>Descuento:</strong> {{data.descuento}}%<br></p>
+                <p class="subtitle is-4"><strong>Precio Tienda:</strong> ${{data.precio_tienda}} <br></p>
+                <p class="subtitle is-4"><strong>Linea:</strong> {{data.linea}}<br></p>
+                <p class="subtitle is-4"><strong>Marca:</strong> {{data.marca}}<br></p>
+                <p class="subtitle is-4"><strong>Subcategoria:</strong> {{data.subcategoria}}<br></p>
+                <p class="subtitle is-4"><strong>Descripción:</strong> {{data.descripcion}}<br></p>                   
 
             </div>
         </div>

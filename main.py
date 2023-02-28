@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from model.handle_db import tabla_existencias
+from model.handle_db import tabla_existencias, get_model_data
 
 app = FastAPI()
 
@@ -14,5 +14,6 @@ def index(request: Request):
 
 @app.get('/existencias/{modelo}', response_class=HTMLResponse)
 def existencias(request: Request, modelo):
-    data = tabla_existencias(modelo)
-    return templates.TemplateResponse("existencias.html", {"request":request, "data":data, "modelo":modelo})
+    existencias = tabla_existencias(modelo)
+    data = get_model_data(modelo)
+    return templates.TemplateResponse("existencias.html", {"request":request, "existencias":existencias, "modelo":modelo, "data":data})
