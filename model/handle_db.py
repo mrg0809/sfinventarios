@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 import pandas as pd
-import math
+import numpy as np
 
 class HandleDB():
     def __init__(self):
@@ -32,7 +32,7 @@ class HandleDB():
             return 'NOT FOUND'   
     
     def get_existencias(self, model):
-        self._cur.execute("SELECT Tienda, Talla, Existencia FROM existencias WHERE Modelo = '{}'".format(model))
+        self._cur.execute("SELECT Tienda, Talla, Existencia FROM existencias WHERE Modelo = '{}' AND Tienda IN {}".format(model, tiendastransito))
         data = self._cur.fetchall()
         return data
     
@@ -47,6 +47,49 @@ class HandleDB():
 
 db = HandleDB()
 
+tiendas = ('1101 BODEGA TIJUANA SPORTS FAN',
+           '1203 RIO 3',
+           '1205 MACROPLAZA',
+           '1207 MACROPLAZA 2',
+           '1211 PALMAS',
+           '1213 SENDEROS TIJUANA I EVF',
+           '1215 SENDEROS TIJUANA II SPF',
+           '1219 MEXICALI 1',
+           '1221 MEXICALI 2',
+           '1225 ENSENADA 1',
+           '1227 ENSENADA 2',
+           '1229 ENSENADA 3',
+           '3203 GRAN PATIO EVF',
+           '4203 FLORIDA 22 CDMX')
+
+tiendastransito = ( '1101 BODEGA TIJUANA SPORTS FAN',
+                    '1102 TRANSITO BODEGA TIJUANA SPORTSFAN',
+                    '1203 RIO 3',
+                    '1204 TRANSITO RIO 3',
+                    '1205 MACROPLAZA',
+                    '1206 TRANSITO MACROPLAZA',
+                    '1207 MACROPLAZA 2',
+                    '1208 TRANSITO MACROPLAZA 2',
+                    '1211 PALMAS',
+                    '1212 TRANSITO PALMAS',
+                    '1213 SENDEROS TIJUANA I EVF',
+                    '1214 TRNASITO SENDEROS TIJUANA'
+                    '1215 SENDEROS TIJUANA II SPF',
+                    '1216 TRANSITO SENDEROS TIJUANA 2',
+                    '1219 MEXICALI 1',
+                    '1220 TRANSITO MEXICALI 1',
+                    '1221 MEXICALI 2',
+                    '1222 TRANSITO MEXICALI 2',
+                    '1225 ENSENADA 1',
+                    '1226 TRANSITO ENSENADA 1',
+                    '1227 ENSENADA 2',
+                    '1228 TRANSITO ENSENADA 2',
+                    '1229 ENSENADA 3',
+                    '1230 TRANSITO ENSENADA 3',
+                    '3203 GRAN PATIO EVF',
+                    '3204 TRANSITO GRAN PATIO EVF',
+                    '4203 FLORIDA 22 CDMX',
+                    '4204 TRANSITO FLORIDA 22 CDMX')
 
 def tabla_existencias(modelo):
     if db.get_existencias(modelo) == []:
@@ -59,8 +102,9 @@ def tabla_existencias(modelo):
         df["EXISTENCIA"] = df["EXISTENCIA"].astype(float)
         df = df.pivot(index="TIENDA", columns="TALLA", values="EXISTENCIA").fillna(0)
         df.loc['TOTAL',:] = df.sum(axis=0)
-        df.loc[:,'TOTAL'] = df.sum(axis=1)
-        return df
+        df.loc[:,'T'] = df.sum(axis=1)
+        df2 = df.astype(np.int64)
+        return df2
     except Exception as e:
         return 'NOT FOUND'
     
