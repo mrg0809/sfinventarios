@@ -12,4 +12,3 @@ def get_existencias(modelo):
     df2.loc[:,'TOTAL'] = df2.sum(axis=1)
     return df2
 
-get_existencias('TPGW9250')

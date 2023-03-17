@@ -1,0 +1,37 @@
+{% extends "components/layout.html" %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div>
+        <br><br>
+        <article class="message is-dark is-large mt-2">
+            <div class="message-header">
+                Fecha inicio:<input type="date" min="2022-01-01" id="idate">
+                Fecha fin:<input type="date" min="2022-01-01" id="fdate">
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                      <div class="select">
+                        <select name="tienda">
+                          <option value="GENERAL">GENERAL</option>  
+                          <option value="1203 RIO 3	">1203 RIO 3</option>
+                          <option value="1205 MACROPLAZA">1205 MACROPLAZA</option>
+                          <option value="1207 MACROPLAZA 2">1207 MACROPLAZA 2</option>
+                          <option value="1211 PALMAS">1211 PALMAS</option>
+                          <option value="1213 SENDEROS TIJUANA I EVF">1213 SENDEROS TIJUANA I EVF</option>
+                          <option value="1219 MEXICALI 1">1219 MEXICALI 1</option>
+                          <option value="1221 MEXICALI 2">1221 MEXICALI 2</option>
+                          <option value="1225 ENSENADA 1">1225 ENSENADA 1</option>
+                          <option value="1227 ENSENADA 2">1227 ENSENADA 2</option>
+                          <option value="1229 ENSENADA 3">1229 ENSENADA 3</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control">
+                      <button type="submit" class="button is-primary">Generar</button>
+                    </div>
+                  </div>
+
+            </div>
+        </article>
+
+{% endblock %}

@@ -40,6 +40,16 @@ class HandleDB():
         self._cur.execute("SELECT Descripcion, Precio, Descuento, Linea, Marca, Subcategoria FROM existencias WHERE Modelo = '{}' LIMIT 1".format(model))
         data = self._cur.fetchall()
         return data
+    
+    def get_model_sales(self, model):
+        self._cur.execute("SELECT Tienda, SUM(Unidades) FROM ventas WHERE Fecha >= (curdate()-interval 1 month) AND Modelo='{}' GROUP BY Tienda ORDER BY Tienda".format(model))
+        data = self._cur.fetchall()
+        return data
+    
+    def get_cost(self, model):
+        self._cur.execute("SELECT AVG(Costo) FROM ventas where Modelo='{}'".format(model))
+        cost = self._cur.fetchone()
+        return cost
 
     def __del__(self):
         self._con.close()
@@ -59,7 +69,6 @@ tiendas = ('1101 BODEGA TIJUANA SPORTS FAN',
            '1225 ENSENADA 1',
            '1227 ENSENADA 2',
            '1229 ENSENADA 3',
-           '3203 GRAN PATIO EVF',
            '4203 FLORIDA 22 CDMX')
 
 tiendastransito = ( '1101 BODEGA TIJUANA SPORTS FAN',
@@ -86,8 +95,6 @@ tiendastransito = ( '1101 BODEGA TIJUANA SPORTS FAN',
                     '1228 TRANSITO ENSENADA 2',
                     '1229 ENSENADA 3',
                     '1230 TRANSITO ENSENADA 3',
-                    '3203 GRAN PATIO EVF',
-                    '3204 TRANSITO GRAN PATIO EVF',
                     '4203 FLORIDA 22 CDMX',
                     '4204 TRANSITO FLORIDA 22 CDMX')
 
@@ -111,11 +118,18 @@ def tabla_existencias(modelo):
 
 def get_model_data(modelo):
     query = db.get_model_data(modelo)
+    costo = db.get_cost(modelo)
     precio = round(float(query[0][1])*1.16)
     descuento = float(query[0][2])
     precio_tienda = precio
     if descuento > 0:
         precio_tienda = precio*(100-descuento)/100
-    data = {'descripcion': query[0][0], 'precio': precio, 'descuento': round(descuento, 2), 'precio_tienda': round(precio_tienda), 'linea': query[0][3], 'marca': query[0][4], 'subcategoria' :query[0][5]}
+    data = {'descripcion': query[0][0], 'precio': precio, 'descuento': round(descuento, 2), 'precio_tienda': round(precio_tienda), 'linea': query[0][3], 'marca': query[0][4], 'subcategoria' :query[0][5], 'costo':round(costo[0],2)}
     return data
 
+
+def get_model_sales(modelo):
+    df = pd.DataFrame(db.get_model_sales(modelo))
+    df.columns=["TIENDA", "VENTA"]
+    df['VENTA'] = df['VENTA'].astype(np.int64)
+    return df
