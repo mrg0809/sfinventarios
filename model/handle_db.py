@@ -50,6 +50,7 @@ class HandleDB():
         self._cur.execute("SELECT AVG(Costo) FROM ventas where Modelo='{}'".format(model))
         cost = self._cur.fetchone()
         return cost
+    
 
     def __del__(self):
         self._con.close()
