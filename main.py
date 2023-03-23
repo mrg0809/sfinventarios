@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from model.handle_db import tabla_existencias, get_model_data, get_model_sales, get_better_models
+import pandas as pd
 
 app = FastAPI()
 
@@ -22,11 +23,15 @@ def existencias(request: Request):
 
 @app.get('/mejores/', response_class=HTMLResponse)
 def index(request: Request):
-    context = {'request': request}
-    return templates.TemplateResponse("mejores.html", context)
+    data = pd.DataFrame()
+    return templates.TemplateResponse("mejores.html", {"request":request, "data": data})
 
 @app.post('/mejores/', response_class=HTMLResponse)
 def index(request: Request, tienda: str = Form(...), fecha2: str = Form(...), fecha1: str = Form(...)):
-    data=get_better_models(tienda, fecha1, fecha2)
-    print(data)
+    data = get_better_models(tienda, fecha1, fecha2)
     return templates.TemplateResponse("mejores.html", {"request":request, "data": data})
+
+@app.get('/inventario/', response_class=HTMLResponse)
+def index(request: Request):
+    data = 0
+    return templates.TemplateResponse("inventario.html", {"request":request, "data": data})

@@ -6,7 +6,7 @@
         <br><br>
         <article class="message is-dark is-large mt-2">         
             <div class="message-header">              
-              <h1><strong>Mejores Articulos</strong></h1>              
+              <h1><strong>Inventario Físico</strong></h1>              
             </div>          
         </article>
 
@@ -17,7 +17,7 @@
               <div class="select">  
                 <form method="POST">
                   <select name="tienda">
-                    <option value="GENERAL">GENERAL</option>  
+                    <option value="1101 BODEGA TIJUANA SPORTS FAN">1101 BODEGA TIJUANA SPORTS FAN</option>  
                     <option value="1203 RIO 3	">1203 RIO 3</option>
                     <option value="1205 MACROPLAZA">1205 MACROPLAZA</option>
                     <option value="1207 MACROPLAZA 2">1207 MACROPLAZA 2</option>
@@ -34,19 +34,16 @@
             </div>
           </div>
           <div class="mt-6">
-            <label>Fecha inicio: <input type="date" min="2022-01-01" value="2023-01-01" name="fecha1"></label> 
+            <label>Escaneo excel: <input type="file" name="xls"></label> 
           </div> 
-          <div class="mt-6"> 
-            <label>Fecha fin:  <input type="date" min="2022-01-01" value="2023-12-31" name="fecha2"></label>
-          </div>
           <div class="mt-6">
-            <input type="submit" class="button is-primary" value="Generar">
+            <input type="submit" class="button is-primary" value="Generar Diferencias">
           </div>
               </form>
         
       </div>
 
       <div class="column has-text-centered is-fullwidth">
-          {{data.to_html(classes='table is-bordered is-striped is-hoverable is-fullwidth') | safe}}
+          
       </div>
 {% endblock %}
