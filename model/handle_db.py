@@ -133,15 +133,18 @@ def get_model_data(modelo):
     precio_tienda = precio
     if descuento > 0:
         precio_tienda = precio*(100-descuento)/100
-    data = {'descripcion': query[0][0], 'precio': precio, 'descuento': round(descuento, 2), 'precio_tienda': round(precio_tienda), 'linea': query[0][3], 'marca': query[0][4], 'subcategoria' :query[0][5], 'costo':round(costo[0],2)}
+    data = {'descripcion': query[0][0], 'precio': precio, 'descuento': round(descuento, 2), 'precio_tienda': round(precio_tienda), 'linea': query[0][3], 'marca': query[0][4], 'subcategoria' :query[0][5], 'costo':costo[0]}
     return data
 
 
 def get_model_sales(modelo):
     df = pd.DataFrame(db.get_model_sales(modelo))
-    df.columns=["TIENDA", "VENTA"]
-    df['VENTA'] = df['VENTA'].astype(np.int64)
-    return df
+    try:
+        df.columns=["TIENDA", "VENTA"]
+        df['VENTA'] = df['VENTA'].astype(np.int64)
+        return df
+    except:
+        return df    
 
 
 def get_better_models(tienda, fecha1, fecha2):
