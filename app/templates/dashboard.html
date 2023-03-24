@@ -1,0 +1,128 @@
+{% extends "components/layout.html" %}
+
+{% block title %}Sportsfan - Dashboard{% endblock %}
+{% block content %}
+    <div>
+        <br><br>
+        <article class="message is-dark is-large mt-2">
+            <div class="message-header">
+                <h1 class="has-text-left"><strong>Dashboard</strong></h1> 
+            </div>
+        </article>
+    
+        <div class="columns is-multiline">
+            <div class="column is-half">
+               
+            </div>
+        
+            <div class="column">
+                <div class="has-text-centered is-inline-flex">
+                    <div class="mr-6 ml-6"> 
+                        <table class="table is-bordered is-striped is-narrow">
+                            <thead class="subtitle is-5">
+                                <th class="has-text-black">
+                                    MODELO
+                                </th>
+                                <th class="has-text-black">
+                                        VENTAS
+                                    </th>
+                            </thead>
+                            <tbody>
+                                {% for x in data['betterfive'] %}
+                                <tr>
+                                    <td>
+                                        {{x.0}}
+                                    </td>
+                                    <td>
+                                        {{x.1}}
+                                    </td> 
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                                               
+                    </div>
+                    <div class="ml-6"> 
+                        <table class="table is-bordered is-striped is-narrow">
+                            <thead class="subtitle is-5">
+                                <th class="has-text-black">
+                                    TALLA
+                                </th>
+                                <th class="has-text-black">
+                                        VENTAS
+                                    </th>
+                            </thead>
+                            <tbody>
+                                {% for x in data['bettersizes'] %}
+                                <tr>
+                                    <td>
+                                        {{x.0}}
+                                    </td>
+                                    <td>
+                                        {{x.1}}
+                                    </td> 
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <div class="has-text-centered is-inline-flex">
+                    <div class="mr-6 ml-6"> 
+                        <table class="table is-bordered is-striped is-narrow">
+                            <thead class="subtitle is-5">
+                                <th class="has-text-black">
+                                    MODELO
+                                </th>
+                                <th class="has-text-black">
+                                        EXISTENCIAS
+                                    </th>
+                            </thead>
+                            <tbody>
+                                {% for x in data['maxinventory'] %}
+                                <tr>
+                                    <td>
+                                        {{x.0}}
+                                    </td>
+                                    <td>
+                                        {{x.1}}
+                                    </td> 
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                                               
+                    </div>
+                    <div class="ml-6"> 
+                        <table class="table is-bordered is-striped is-narrow">
+                            <thead class="subtitle is-5">
+                                <th class="has-text-black">
+                                    MODELO
+                                </th>
+                                <th class="has-text-black">
+                                        DESCUENTO
+                                    </th>
+                            </thead>
+                            <tbody>
+                                {% for x in data['betterdiscounts'] %}
+                                <tr>
+                                    <td>
+                                        {{x.0}}
+                                    </td>
+                                    <td>
+                                        {{x.1}}
+                                    </td> 
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>               
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
