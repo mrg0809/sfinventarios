@@ -53,10 +53,10 @@ class HandleDB():
     
     def get_best_model_sales(self, store, fecha1, fecha2):
         if store == 'GENERAL':
-            self._cur.execute("SELECT Modelo, SUM(Unidades) FROM ofandb.ventas WHERE Fecha BETWEEN '{}' AND '{}' group by Modelo order by sum(Unidades) desc limit 50;".format(fecha1, fecha2))
+            self._cur.execute("SELECT Modelo, Descripcion, SUM(Unidades) FROM ofandb.ventas WHERE Fecha BETWEEN '{}' AND '{}' group by Modelo order by sum(Unidades) desc limit 50;".format(fecha1, fecha2))
             bettermodels = self._cur.fetchall()
             return bettermodels
-        self._cur.execute("SELECT Modelo, SUM(Unidades) FROM ofandb.ventas WHERE Fecha BETWEEN '{}' AND '{}' AND Tienda = '{}' group by Modelo order by sum(Unidades) desc limit 25;".format(fecha1, fecha2, store))
+        self._cur.execute("SELECT Modelo, Descripcion, SUM(Unidades) FROM ofandb.ventas WHERE Fecha BETWEEN '{}' AND '{}' AND Tienda = '{}' group by Modelo order by sum(Unidades) desc limit 25;".format(fecha1, fecha2, store))
         bettermodels = self._cur.fetchall()
         return bettermodels
     
@@ -159,7 +159,7 @@ def get_model_sales(modelo):
 
 def get_better_models(tienda, fecha1, fecha2):
     df = pd.DataFrame(db.get_best_model_sales(tienda, fecha1, fecha2))
-    df.columns=["MODELO", "VENTA"]
+    df.columns=["MODELO", "DESCRIPCION", "VENTA"]
     df['VENTA'] = df['VENTA'].astype(np.int64)
     return df
 

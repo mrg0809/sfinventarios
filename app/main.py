@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from model.handle_db import tabla_existencias, get_model_data, get_model_sales, get_better_models, dashboard_data
+from model.firebird import consultaVentaTiendaHoy
 import pandas as pd
 
 app = FastAPI()
@@ -19,7 +20,8 @@ def index(request: Request):
 @app.get('/dashboard', response_class=HTMLResponse)
 def index(request: Request):
     data = dashboard_data()
-    return templates.TemplateResponse("dashboard.html", {"request": request, "data": data})
+    venta = consultaVentaTiendaHoy()
+    return templates.TemplateResponse("dashboard.html", {"request": request, "data": data, "venta": venta})
 
 @app.get('/existencias/', response_class=HTMLResponse)
 def existencias(request: Request):

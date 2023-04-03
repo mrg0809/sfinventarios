@@ -9,9 +9,32 @@
                 <h1 class="has-text-left"><strong>Dashboard</strong></h1> 
             </div>
         </article>
-    
-        <div class="columns is-multiline">
-            <div class="column is-half">
+        
+        <div class="columns is-multiline has-text-centered">
+            <div class="column is-half has-text-centered is-centered ">
+                VENTA HOY
+                <table class="table is-bordered is-striped is-narrow is-fullwidth is-fullheight is-centered ml-6">
+                    <thead class="subtitle is-5">
+                        <th class="has-text-black">
+                            MODELO
+                        </th>
+                        <th class="has-text-black">
+                                VENTA
+                            </th>
+                    </thead>
+                    <tbody>
+                        {% for x in venta %}
+                        <tr>
+                            <td>
+                                {{x.0}}
+                            </td>
+                            <td>
+                                ${{x.1}}
+                            </td> 
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                
             </div>
         
