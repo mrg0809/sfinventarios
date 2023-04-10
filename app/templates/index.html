@@ -7,13 +7,13 @@
             <div class="container">
                 <div class="columns is-centered">
                     <div class="column is-4">
-                        <form action="" class="box">
+                        <form action="/login" method="POST" class="box">
                             <div class="field">
                                 <label class="label">
                                     Email:
                                 </label>
                                 <div class="control has-icons-left">
-                                    <input type="email" class="input" placeholder="correo electronico">
+                                    <input name="username" type="email" class="input" placeholder="correo electronico">
                                     <span class="icon is-small is-left">
                                         <i class="mdi mdi-account"></i>
                                     </span>
@@ -24,7 +24,7 @@
                                     Password:
                                 </label>
                                 <div class="control has-icons-left">
-                                    <input type="password" class="input" placeholder="contraseña">
+                                    <input name="password_user" type="password" class="input" placeholder="contraseña">
                                     <span class="icon is-small is-left">
                                         <i class="mdi mdi-lock"></i>
                                     </span>

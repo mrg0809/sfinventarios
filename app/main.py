@@ -1,21 +1,38 @@
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Form, Depends, status
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
+from passlib.context import CryptContext
 from model.handle_db import tabla_existencias, get_model_data, get_model_sales, get_better_models, dashboard_data
 from model.firebird import consultaVentaTiendaHoy
+from controller.check_password import check_user
+from starlette.status import HTTP_302_FOUND, HTTP_303_SEE_OTHER
 import pandas as pd
+
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
 templates = Jinja2Templates(directory="templates")
+
+
 
 @app.get('/', response_class=HTMLResponse)
 def index(request: Request):
     context = {'request': request}
     return templates.TemplateResponse("index.html", context)
+
+@app.post('/login', response_class=HTMLResponse)
+def login(request: Request, username: str = Form(), password_user = Form()):
+    verify = check_user(username, password_user)
+    if verify:
+        return RedirectResponse("/dashboard", status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse("/", status_code=HTTP_303_SEE_OTHER)
+
 
 @app.get('/dashboard', response_class=HTMLResponse)
 def index(request: Request):
@@ -41,7 +58,8 @@ def index(request: Request, tienda: str = Form(...), fecha2: str = Form(...), fe
     data = get_better_models(tienda, fecha1, fecha2)
     return templates.TemplateResponse("mejores.html", {"request":request, "data": data})
 
-@app.get('/inventario/', response_class=HTMLResponse)
+@app.get('/inventario', response_class=HTMLResponse)
 def index(request: Request):
     data = 0
     return templates.TemplateResponse("inventario.html", {"request":request, "data": data})
+
