@@ -152,6 +152,7 @@ def get_model_sales(modelo):
     try:
         df.columns=["TIENDA", "VENTA"]
         df['VENTA'] = df['VENTA'].astype(np.int64)
+        df.loc['TOTAL'] = ["TOTAL", df["VENTA"].sum(axis=0, numeric_only=True)]
         return df
     except:
         return df    
