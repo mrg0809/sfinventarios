@@ -97,7 +97,7 @@ tiendastransito = ( '1101 BODEGA TIJUANA SPORTS FAN',
                     '1211 PALMAS',
                     '1212 TRANSITO PALMAS',
                     '1213 SENDEROS TIJUANA I EVF',
-                    '1214 TRNASITO SENDEROS TIJUANA'
+                    '1214 TRANSITO SENDEROS TIJUANA',
                     '1215 SENDEROS TIJUANA II SPF',
                     '1216 TRANSITO SENDEROS TIJUANA 2',
                     '1219 MEXICALI 1',
@@ -128,7 +128,8 @@ def tabla_existencias(modelo):
         df2 = df.astype(np.int64)
         return df2
     except Exception as e:
-        return 'NOT FOUND'
+        df = pd.DataFrame()
+        return df
     
 
 def get_model_data(modelo):

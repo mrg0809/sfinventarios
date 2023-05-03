@@ -44,7 +44,10 @@ def index(request: Request):
 def existencias(request: Request):
     modelo = dict(request.query_params.items()).get('modelo').upper()
     existencias = tabla_existencias(modelo)
-    data = get_model_data(modelo)
+    try:
+        data = get_model_data(modelo)
+    except:
+        data = {'descripcion': 'NO DATA', 'precio': 'NO DATA', 'descuento': 'NO DATA', 'precio_tienda': 'NO DATA', 'linea': 'NO DATA', 'marca': 'NO DATA', 'subcategoria' :'NO DATA', 'costo':'NO DATA'}
     ventas = get_model_sales(modelo)
     return templates.TemplateResponse("existencias.html", {"request":request, "existencias":existencias, "modelo":modelo, "data":data, "ventas":ventas})
 
