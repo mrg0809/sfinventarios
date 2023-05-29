@@ -24,12 +24,12 @@ class HandleDB():
 
     def get_ean_model(self, ean):
         try:
-            self._cur.execute("SELECT Modelo FROM existencias WHERE EAN = '{}'".format(ean))
+            self._cur.execute("SELECT Modelo FROM existencias WHERE EAN = '{}' LIMIT 1".format(ean))
             data = self._cur.fetchone()
-            trash = self._cur.fetchall()
-            return data
+            modelo = data[0]
+            return modelo
         except Exception as e:
-            return 'NOT FOUND'   
+            return 'NOT FOUND'
     
     def get_existencias(self, model):
         self._cur.execute("SELECT Tienda, Talla, Existencia FROM existencias WHERE Modelo = '{}' AND Tienda IN {}".format(model, tiendastransito))
@@ -115,9 +115,7 @@ tiendastransito = ( '1101 BODEGA TIJUANA SPORTS FAN',
 
 def tabla_existencias(modelo):
     if db.get_existencias(modelo) == []:
-        modelo = db.get_ean_model(modelo)[0]
-        print(modelo)
-
+        modelo = db.get_ean_model(modelo)
     try:
         df = pd.DataFrame(db.get_existencias(modelo))
         df.columns=["TIENDA", "TALLA", "EXISTENCIA"]
@@ -133,6 +131,9 @@ def tabla_existencias(modelo):
     
 
 def get_model_data(modelo):
+    if db.get_existencias(modelo) == []:
+        modelo = db.get_ean_model(modelo)
+
     query = db.get_model_data(modelo)
     costoq = db.get_cost(modelo)
     if type(costoq[0]) == int or type(costoq[0]) == float:
@@ -144,11 +145,14 @@ def get_model_data(modelo):
     precio_tienda = precio
     if descuento > 0:
         precio_tienda = precio*(100-descuento)/100
-    data = {'descripcion': query[0][0], 'precio': precio, 'descuento': round(descuento, 2), 'precio_tienda': round(precio_tienda), 'linea': query[0][3], 'marca': query[0][4], 'subcategoria' :query[0][5], 'costo':costo}
+    data = {'descripcion': query[0][0], 'precio': precio, 'descuento': round(descuento, 2), 'precio_tienda': round(precio_tienda), 'linea': query[0][3], 'marca': query[0][4], 'subcategoria' :query[0][5], 'costo':costo, 'modelo':modelo}
     return data
 
 
 def get_model_sales(modelo):
+    if db.get_existencias(modelo) == []:
+        modelo = db.get_ean_model(modelo)
+
     df = pd.DataFrame(db.get_model_sales(modelo))
     try:
         df.columns=["TIENDA", "VENTA"]
@@ -171,3 +175,4 @@ def dashboard_data():
     better_sizes = db.get_best_size_sales()
     better_discounts = db.get_better_discount()
     return {'betterfive': five_model_sales, 'maxinventory': max_inventory_model, 'bettersizes': better_sizes, "betterdiscounts": better_discounts}
+
