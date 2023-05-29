@@ -46,8 +46,9 @@ def existencias(request: Request):
     existencias = tabla_existencias(modelo)
     try:
         data = get_model_data(modelo)
+        modelo = data['modelo']
     except:
-        data = {'descripcion': 'NO DATA', 'precio': 'NO DATA', 'descuento': 'NO DATA', 'precio_tienda': 'NO DATA', 'linea': 'NO DATA', 'marca': 'NO DATA', 'subcategoria' :'NO DATA', 'costo':'NO DATA'}
+        data = {'descripcion': 'NO DATA', 'precio': 'NO DATA', 'descuento': 'NO DATA', 'precio_tienda': 'NO DATA', 'linea': 'NO DATA', 'marca': 'NO DATA', 'subcategoria' :'NO DATA', 'costo':'NO DATA', 'modelo':'NO ENCONTRADO'}
     ventas = get_model_sales(modelo)
     return templates.TemplateResponse("existencias.html", {"request":request, "existencias":existencias, "modelo":modelo, "data":data, "ventas":ventas})
 
