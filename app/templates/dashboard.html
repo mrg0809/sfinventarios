@@ -12,11 +12,11 @@
         
         <div class="columns is-multiline has-text-centered">
             <div class="column is-half has-text-centered is-centered ">
-                VENTA HOY
+                VENTA HOY {{ fecha }}
                 <table class="table is-bordered is-striped is-narrow is-fullwidth is-fullheight is-centered ml-6">
                     <thead class="subtitle is-5">
                         <th class="has-text-black">
-                            MODELO
+                            TIENDA
                         </th>
                         <th class="has-text-black">
                                 VENTA
@@ -33,6 +33,13 @@
                             </td> 
                         </tr>
                         {% endfor %}
+                        <tr>
+                            <td>
+                                <h1 class="title has-background-black has-text-white">TOTAL</h1>
+                            </td>
+                            <td>
+                                <h1 class="title has-background-black has-text-white">${{ total }}</h1>
+                            </td>
                     </tbody>
                 </table>
                

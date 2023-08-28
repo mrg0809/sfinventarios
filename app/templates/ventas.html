@@ -1,0 +1,67 @@
+{% extends "components/layout.html" %}
+
+{% block title %}Sportsfan - Ventas{% endblock %}
+{% block content %}
+    <div>
+        <br><br>
+        <article class="message is-dark is-large mt-2">         
+            <div class="message-header">              
+              <h1><strong>Ventas</strong></h1>              
+            </div>          
+        </article>
+
+        <div class="columns is-multiline">
+            <div class="column is-one-quarter has-text-centered ml-6">    
+                <div class="field has-addons mt-6"> 
+                    <form method="POST">
+                        <div class="mt-6">
+                            <label>Fecha inicio: <input type="date" min="2022-01-01" value="2023-01-01" name="fecha1"></label> 
+                        </div> 
+                        <div class="mt-6"> 
+                            <label>Fecha fin:  <input type="date" min="2022-01-01" value="2023-12-31" name="fecha2"></label>
+                        </div>
+                        <div class="mt-6">
+                            <input type="submit" class="button is-primary" value="Generar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+
+        
+      
+
+      <div class="column is-half has-text-centered is-centered ">
+        VENTA DEL {{ fecha1 }} AL {{ fecha2 }}
+        <table class="table is-bordered is-striped is-narrow is-fullwidth is-fullheight is-centered ml-6">
+            <thead class="subtitle is-5">
+                <th class="has-text-black">
+                    TIENDA
+                </th>
+                <th class="has-text-black">
+                        VENTA
+                    </th>
+            </thead>
+            <tbody>
+                {% for x in venta %}
+                <tr>
+                    <td>
+                        {{x.0}}
+                    </td>
+                    <td>
+                        ${{x.1}}
+                    </td> 
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>
+                        <h1 class="title has-background-black has-text-white">TOTAL</h1>
+                    </td>
+                    <td>
+                        <h1 class="title has-background-black has-text-white">${{ total }}</h1>
+                    </td>
+            </tbody>
+        </table>
+       
+    </div>
+{% endblock %}

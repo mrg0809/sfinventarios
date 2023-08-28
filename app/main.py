@@ -5,8 +5,9 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
 from passlib.context import CryptContext
 from model.handle_db import tabla_existencias, get_model_data, get_model_sales, get_better_models, dashboard_data
-from model.firebird import consultaVentaTiendaHoy
+from model.firebird import consultaVentaTiendaHoy, consultaVenta
 from controller.check_password import check_user
+from datetime import datetime
 from starlette.status import HTTP_302_FOUND, HTTP_303_SEE_OTHER
 import pandas as pd
 
@@ -38,7 +39,11 @@ def login(request: Request, username: str = Form(), password_user = Form()):
 def index(request: Request):
     data = dashboard_data()
     venta = consultaVentaTiendaHoy()
-    return templates.TemplateResponse("dashboard.html", {"request": request, "data": data, "venta": venta})
+    total = 0
+    fecha = datetime.today()
+    for x in venta:
+        total += (x[1])
+    return templates.TemplateResponse("dashboard.html", {"request": request, "data": data, "venta": venta, "total": total, "fecha":fecha})
 
 @app.get('/existencias/', response_class=HTMLResponse)
 def existencias(request: Request):
@@ -66,4 +71,17 @@ def index(request: Request, tienda: str = Form(...), fecha2: str = Form(...), fe
 def index(request: Request):
     data = 0
     return templates.TemplateResponse("inventario.html", {"request":request, "data": data})
+
+@app.get('/ventas/', response_class=HTMLResponse)
+def index(request: Request):
+    data = ''
+    return templates.TemplateResponse("ventas.html", {"request":request, "data": data})
+
+@app.post('/ventas/', response_class=HTMLResponse)
+def index(request: Request, fecha2: str = Form(...), fecha1: str = Form(...)):
+    venta = consultaVenta(fecha1, fecha2)
+    total = 0
+    for x in venta:
+        total += (x[1])
+    return templates.TemplateResponse("ventas.html", {"request":request, "venta": venta, "total": total, "fecha1": fecha1, "fecha2": fecha2})
 

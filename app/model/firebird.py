@@ -25,3 +25,20 @@ def consultaVentaTiendaHoy():
         con.close()
         ventashoy = 'ERROR'
     return ventashoy
+
+
+def consultaVenta(fecha1, fecha2):
+    fecha1 = datetime.strptime(fecha1, '%Y-%m-%d').strftime('%d.%m.%Y')
+    fecha2 = datetime.strptime(fecha2, '%Y-%m-%d').strftime('%d.%m.%Y')
+    
+    try:
+        cur =  con.cursor()
+        par = [fecha1, fecha2, 0, 'N', 0, 'a', 3, 'S', 0]
+        cur.execute("select NOMBRE, VENTA_IMPORTE from VENTA_DESGL_PER(?, ?, ?, ?, ?, ?, ?, ?, ?)", (par))
+        venta =  cur.fetchall()
+    except:
+        print('ERROR')
+        cur.close()
+        con.close()
+        venta = 'ERROR'
+    return venta
