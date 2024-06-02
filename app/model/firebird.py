@@ -4,7 +4,7 @@ from datetime import datetime
 """Datos para conexion a base de datos remota"""
 con = firebirdsql.connect(
     host='sfan.ddns.net',
-    database='C:\Microsip datos\SPORTS FAN 2016.FDB',
+    database='C:\Microsip datos\SPORTSFAN 2024.FDB',
     port=2000,
     user='SYSDBA',
     password='flexracer',

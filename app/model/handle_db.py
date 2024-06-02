@@ -7,7 +7,7 @@ class HandleDB():
     def __init__(self):
         self._con = mysql.connector.connect(user='admin',
                                             password='RMs1stemas',
-                                            host='ofandb.ctnnbczca24z.us-east-1.rds.amazonaws.com',
+                                            host='jealdata.ctnnbczca24z.us-east-1.rds.amazonaws.com',
                                             database='ofandb' )
         self._cur = self._con.cursor()
 
@@ -86,32 +86,24 @@ class HandleDB():
 
 db = HandleDB()
 
-tiendastransito = ( '1101 BODEGA TIJUANA SPORTS FAN',
-                    '1102 TRANSITO BODEGA TIJUANA SPORTSFAN',
-                    '1203 RIO 3',
-                    '1204 TRANSITO RIO 3',
+tiendastransito = ( '1101 BODEGA TIJUANA',
+                    '1102 TRANSITO BODEGA TIJUANA',
+                    '1201 PALMAS',
+                    '1202 TRANSITO PALMAS',
+                    '1203 SENDEROS TIJUANA',
+                    '1204 TRANSITO SENDEROS TIJUANA',
                     '1205 MACROPLAZA',
                     '1206 TRANSITO MACROPLAZA',
                     '1207 MACROPLAZA 2',
                     '1208 TRANSITO MACROPLAZA 2',
-                    '1211 PALMAS',
-                    '1212 TRANSITO PALMAS',
-                    '1213 SENDEROS TIJUANA I EVF',
-                    '1214 TRANSITO SENDEROS TIJUANA',
-                    '1215 SENDEROS TIJUANA II SPF',
-                    '1216 TRANSITO SENDEROS TIJUANA 2',
-                    '1219 MEXICALI 1',
-                    '1220 TRANSITO MEXICALI 1',
-                    '1221 MEXICALI 2',
-                    '1222 TRANSITO MEXICALI 2',
-                    '1225 ENSENADA 1',
-                    '1226 TRANSITO ENSENADA 1',
-                    '1227 ENSENADA 2',
-                    '1228 TRANSITO ENSENADA 2',
-                    '1229 ENSENADA 3',
-                    '1230 TRANSITO ENSENADA 3',
-                    '4203 FLORIDA 22 CDMX',
-                    '4204 TRANSITO FLORIDA 22 CDMX')
+                    '2201 ENSENADA 1',
+                    '2202 TRANSITO ENSENADA 1',
+                    '2203 ENSENADA 2',
+                    '2204 TRANSITO ENSENADA 2',
+                    '2205 ENSENADA 3',
+                    '2206 TRANSITO ENSENADA 3',
+                    '3201 MEXICALI',
+                    '3202 TRANSITO MEXICALI',)
 
 def tabla_existencias(modelo):
     if db.get_existencias(modelo) == []:
